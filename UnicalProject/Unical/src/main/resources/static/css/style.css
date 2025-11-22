@@ -700,3 +700,34 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
+/* 요일 헤더 색상 */
+.calendar-grid-header-cell--sun {
+    color: #ef4444; /* 빨강 */
+    font-weight: 600;
+}
+.calendar-grid-header-cell--sat {
+    color: #3b82f6; /* 파랑 */
+    font-weight: 600;
+}
+
+/* 일요일 / 토요일 날짜 색상 */
+.calendar-cell-date--sun {
+    color: #ef4444;
+}
+.calendar-cell-date--sat {
+    color: #3b82f6;
+}
+
+/* 오늘 날짜 강조 */
+.calendar-cell--today {
+    background-color: #eff6ff;
+}
+
+.calendar-cell-date--current {
+    font-weight: 700;
+}
+
+/* 오늘 + 선택된 경우 좀 더 강하게 */
+.calendar-cell--selected .calendar-cell-date--current {
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.35);
+}

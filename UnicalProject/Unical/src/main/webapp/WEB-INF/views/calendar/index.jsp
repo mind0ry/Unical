@@ -19,7 +19,7 @@
         <div class="app-topbar-right">
             <span>${loginUser.name}</span>
             <a href="${pageContext.request.contextPath}/auth/profile"
-               style="font-size:13px; text-decoration:underline; text-underline-offset:2px; color:#4b5563;">
+               class="link-profile">
                 내 정보
             </a>
             <form action="${pageContext.request.contextPath}/auth/logout" method="get" style="margin:0;">
@@ -81,32 +81,39 @@
                     <a class="calendar-btn"
                        href="${pageContext.request.contextPath}/calendar?year=${nextYear}&month=${nextMonth}">다음 ▶</a>
                     <a class="calendar-btn calendar-btn-primary"
-                       href="${pageContext.request.contextPath}/calendar" style="color: #ffffff;">오늘</a>
+                       href="${pageContext.request.contextPath}/calendar" style="color:#ffffff;">오늘</a>
                 </div>
             </div>
 
             <!-- 캘린더 그리드 -->
             <section class="calendar-grid">
                 <div class="calendar-grid-header">
-                    <div class="calendar-grid-header-cell">일</div>
+                    <!-- ★ 일요일/토요일에 전용 클래스 추가 -->
+                    <div class="calendar-grid-header-cell calendar-grid-header-cell--sun">일</div>
                     <div class="calendar-grid-header-cell">월</div>
                     <div class="calendar-grid-header-cell">화</div>
                     <div class="calendar-grid-header-cell">수</div>
                     <div class="calendar-grid-header-cell">목</div>
                     <div class="calendar-grid-header-cell">금</div>
-                    <div class="calendar-grid-header-cell">토</div>
+                    <div class="calendar-grid-header-cell calendar-grid-header-cell--sat">토</div>
                 </div>
                 <div class="calendar-grid-body">
-                    <c:forEach var="day" items="${days}">
+                    <!-- ★ varStatus 추가해서 index로 요일 판단 -->
+                    <c:forEach var="day" items="${days}" varStatus="st">
                         <c:set var="isOtherMonth"
                                value="${day.monthValue != currentYm.monthValue}" />
                         <c:set var="dayEvents" value="${eventsByDate[day]}"/>
 
                         <div class="calendar-cell
-                             <c:if test='${isOtherMonth}'> calendar-cell--outside</c:if>"
+                             <c:if test='${isOtherMonth}'> calendar-cell--outside</c:if>
+                             <c:if test='${day eq today}'> calendar-cell--today</c:if>"
                              data-date="${day}">
-                            <div class="calendar-cell-date
-                                <c:if test='${day eq today}'> calendar-cell-date--current</c:if>">
+                            <div class="
+                                calendar-cell-date
+                                <c:if test='${day eq today}'> calendar-cell-date--current</c:if>
+                                <c:if test='${st.index % 7 == 0}'> calendar-cell-date--sun</c:if>
+                                <c:if test='${st.index % 7 == 6}'> calendar-cell-date--sat</c:if>
+                            ">
                                 ${day.dayOfMonth}
                             </div>
 
