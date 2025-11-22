@@ -1,0 +1,702 @@
+/* ====== 기본 설정 ====== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background-color: #f5f5f5;
+    color: #111827;
+}
+
+/* 중앙 정렬 컨테이너 (로그인/회원가입용) */
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 32px 28px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    border: 1px solid #e5e7eb;
+}
+
+.auth-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.auth-subtitle {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 24px;
+}
+
+.auth-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 9px 10px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    outline: none;
+    background-color: #f9fafb;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s;
+    margin-bottom: 12px;
+}
+
+.auth-input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.25);
+    background-color: #ffffff;
+}
+
+.auth-button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: none;
+    background-color: #111827;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.1s ease, transform 0.05s ease;
+}
+
+.auth-button:hover {
+    background-color: #020617;
+}
+
+.auth-button:active {
+    transform: translateY(1px);
+}
+
+.auth-link {
+    margin-top: 16px;
+    font-size: 13px;
+    color: #6b7280;
+    text-align: center;
+}
+
+.auth-link a {
+    color: #4b5563;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+}
+
+/* 에러 메시지 */
+.auth-error {
+    margin-bottom: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #b91c1c;
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+}
+
+/* ====== 캘린더 레이아웃 ====== */
+
+.app-shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-topbar {
+    height: 52px;
+    padding: 0 24px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f9fafb;
+}
+
+.app-logo {
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.app-logo-pill {
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #6366f1, #22c55e);
+}
+
+.app-topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.app-main {
+    flex: 1;
+    display: flex;
+}
+
+/* 좌측 사이드 (필요하면 나중에 카테고리 필터 넣을 수 있음) */
+.app-sidebar {
+    width: 220px;
+    border-right: 1px solid #e5e7eb;
+    padding: 16px 14px;
+    background-color: #f9fafb;
+    font-size: 13px;
+}
+
+.app-sidebar-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+.app-sidebar-item {
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #374151;
+}
+
+.app-sidebar-item-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+}
+
+.dot-lecture   { background-color: #6366f1; }
+.dot-assign    { background-color: #f97316; }
+.dot-exam      { background-color: #ef4444; }
+.dot-team      { background-color: #22c55e; }
+.dot-personal  { background-color: #6b7280; }
+
+.app-sidebar-item:hover {
+    background-color: #e5e7eb;
+}
+
+/* 캘린더 컨텐츠 */
+.app-content {
+    flex: 1;
+    padding: 16px 20px;
+}
+
+/* 캘린더 상단 바 */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.calendar-title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.calendar-month {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.calendar-date-text {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.calendar-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.calendar-btn-primary {
+    background-color: #111827;
+    color: #ffffff;
+    border-color: #111827;
+}
+
+.calendar-btn:hover {
+    background-color: #f3f4f6;
+    color:#4b5563 !important;
+}
+
+/* 캘린더 그리드 (Notion 느낌) */
+.calendar-grid {
+    margin-top: 10px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+.calendar-grid-header {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+}
+
+.calendar-grid-header-cell {
+    padding: 6px 10px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #6b7280;
+}
+
+.calendar-grid-body {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.calendar-cell {
+    min-height: 96px;
+    border-right: 1px solid #f3f4f6;
+    border-bottom: 1px solid #f3f4f6;
+    padding: 6px 6px 4px;
+    font-size: 11px;
+    vertical-align: top;
+}
+
+.calendar-cell:nth-child(7n) {
+    border-right: none;
+}
+
+.calendar-cell-date {
+    font-size: 11px;
+    margin-bottom: 4px;
+    color: #6b7280;
+}
+
+.calendar-cell-date--current {
+    font-weight: 600;
+    color: #111827;
+}
+
+.calendar-event-pill {
+    background-color: #eef2ff;
+    border-radius: 6px;
+    padding: 2px 4px;
+    margin-bottom: 2px;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 일정 등록 패널 */
+.event-panel {
+    margin-top: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 12px;
+}
+
+.event-input {
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 12px;
+}
+
+/* 작은 버튼 */
+.btn-sm {
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    background-color: #111827;
+    color: #f9fafb;
+    cursor: pointer;
+}
+
+/* 전체 리스트 섹션 */
+.event-list-section {
+    margin-top: 18px;
+}
+
+.event-list-title {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.event-item {
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background-color: #ffffff;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    font-size: 12px;
+}
+/* 달력 - 다른 달 날짜 (연한 글씨) */
+.calendar-cell--outside .calendar-cell-date {
+    color: #d1d5db;
+}
+
+/* 선택된 날짜 강조 */
+.calendar-cell--selected {
+    background-color: #eef2ff;
+    box-shadow: inset 0 0 0 1px #6366f1;
+}
+.calendar-cell:hover {
+    background-color: #f9fafb;
+    cursor: pointer;
+}
+/* 달력 - 다른 달 날짜 (연한 글씨) */
+.calendar-cell--outside .calendar-cell-date {
+    color: #d1d5db;
+}
+
+/* 선택된 날짜 강조 */
+.calendar-cell--selected {
+    background-color: #eef2ff;
+    box-shadow: inset 0 0 0 1px #6366f1;
+}
+.calendar-cell:hover {
+    background-color: #f9fafb;
+    cursor: pointer;
+}
+
+/* 카테고리별 pill 색상 */
+.event-pill--lecture {
+    background-color: #eef2ff;
+    color: #3730a3;
+}
+.event-pill--assign {
+    background-color: #fff7ed;
+    color: #92400e;
+}
+.event-pill--exam {
+    background-color: #fef2f2;
+    color: #b91c1c;
+}
+.event-pill--team {
+    background-color: #ecfdf3;
+    color: #166534;
+}
+.event-pill--personal {
+    background-color: #f4f4f5;
+    color: #3f3f46;
+}
+
+/* 모달 공통 */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.modal {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px 18px 14px;
+    min-width: 320px;
+    max-width: 420px;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.2);
+    border: 1px solid #e5e7eb;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.modal-title {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.modal-close {
+    border: none;
+    background: transparent;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    color: #6b7280;
+}
+
+.modal-close:hover {
+    color: #111827;
+}
+
+.modal-body {
+    font-size: 12px;
+}
+
+.modal-row {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+}
+
+.modal-label {
+    font-size: 12px;
+    color: #4b5563;
+}
+
+.modal-input {
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 12px;
+    outline: none;
+    background-color: #f9fafb;
+}
+
+.modal-input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.25);
+    background-color: #ffffff;
+}
+
+.modal-footer {
+    margin-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.btn-secondary {
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #f3f4f6;
+}
+
+.hidden {
+    display: none;
+}
+/* 달력 - 다른 달 날짜 (연한 글씨) */
+.calendar-cell--outside .calendar-cell-date {
+    color: #d1d5db;
+}
+
+/* 선택된 날짜 강조 */
+.calendar-cell--selected {
+    background-color: #eef2ff;
+    box-shadow: inset 0 0 0 1px #6366f1;
+}
+.calendar-cell:hover {
+    background-color: #f9fafb;
+    cursor: pointer;
+}
+
+/* 카테고리별 pill 색상 */
+.event-pill--lecture {
+    background-color: #eef2ff;
+    color: #3730a3;
+}
+.event-pill--assign {
+    background-color: #fff7ed;
+    color: #92400e;
+}
+.event-pill--exam {
+    background-color: #fef2f2;
+    color: #b91c1c;
+}
+.event-pill--team {
+    background-color: #ecfdf3;
+    color: #166534;
+}
+.event-pill--personal {
+    background-color: #f4f4f5;
+    color: #3f3f46;
+}
+
+/* 카테고리 필터 active 상태 */
+.app-sidebar-item--active {
+    background-color: #e5e7eb;
+    font-weight: 500;
+}
+
+/* 모달 공통 */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.modal {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px 18px 14px;
+    min-width: 320px;
+    max-width: 420px;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.2);
+    border: 1px solid #e5e7eb;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.modal-title {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.modal-close {
+    border: none;
+    background: transparent;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    color: #6b7280;
+}
+
+.modal-close:hover {
+    color: #111827;
+}
+
+.modal-body {
+    font-size: 12px;
+}
+
+.modal-row {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+}
+
+.modal-label {
+    font-size: 12px;
+    color: #4b5563;
+}
+
+.modal-input {
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    font-size: 12px;
+    outline: none;
+    background-color: #f9fafb;
+}
+
+.modal-input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.25);
+    background-color: #ffffff;
+}
+
+.modal-footer {
+    margin-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.btn-secondary {
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #f3f4f6;
+}
+
+.hidden {
+    display: none !important;
+}
+.calendar-event-pill {
+    border-radius: 6px;
+    padding: 2px 4px;
+    margin-bottom: 2px;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: background-color 0.1s ease, transform 0.05s ease, box-shadow 0.05s ease;
+}
+
+.calendar-event-pill:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.2);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+}
+/* 캘린더 상단/내정보/네비게이션 링크 밑줄 제거 */
+.app-topbar-right a,
+.calendar-nav a {
+    text-decoration: none;
+    color: #4b5563;
+}
+
+.app-topbar-right a:hover,
+.calendar-nav a:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.auth-input {
+    margin-bottom: 30px;
+}
+/* Chrome, Safari, Edge */
+::-webkit-scrollbar {
+  display: none;
+}
