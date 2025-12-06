@@ -731,3 +731,5 @@ body {
 .calendar-cell--selected .calendar-cell-date--current {
     box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.35);
 }
+/* === 사이드바 '오늘/다가오는 3일' 카드 스타일 === */
+

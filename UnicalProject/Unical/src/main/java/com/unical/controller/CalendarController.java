@@ -35,7 +35,10 @@ public class CalendarController {
             return "redirect:/auth/login";
         }
 
+        // 오늘 기준
         LocalDate today = LocalDate.now();
+
+        // 파라미터 없으면 오늘 기준 연/월
         if (year == null || month == null) {
             year = today.getYear();
             month = today.getMonthValue();
@@ -71,7 +74,7 @@ public class CalendarController {
                     return calendarRepository.save(c);
                 });
 
-        // 이 범위 안의 이벤트 조회
+        // 이 달력 범위 안의 이벤트 조회 (그리드용)
         LocalDateTime rangeStart = calendarStart.atStartOfDay();
         LocalDateTime rangeEnd = calendarEnd.atTime(LocalTime.MAX);
 
@@ -85,6 +88,27 @@ public class CalendarController {
             eventsByDate.computeIfAbsent(d, k -> new ArrayList<>()).add(e);
         }
 
+        // =========================
+        //  오늘 일정 / 다가오는 3일
+        // =========================
+
+        // 오늘 일정: 오늘 00:00 ~ 23:59:59.999
+        LocalDateTime todayStart = today.atStartOfDay();
+        LocalDateTime todayEnd = today.atTime(LocalTime.MAX);
+
+        List<EventEntity> todayEvents =
+                eventRepository.findByCalendarAndStartDatetimeBetween(calendar, todayStart, todayEnd);
+
+        // 다가오는 3일: 내일부터 3일 뒤까지
+        LocalDate upcomingStartDate = today.plusDays(1);
+        LocalDate upcomingEndDate = today.plusDays(3);
+
+        LocalDateTime upcomingStart = upcomingStartDate.atStartOfDay();
+        LocalDateTime upcomingEnd = upcomingEndDate.atTime(LocalTime.MAX);
+
+        List<EventEntity> upcomingEvents =
+                eventRepository.findByCalendarAndStartDatetimeBetween(calendar, upcomingStart, upcomingEnd);
+
         // 이전/다음 달
         YearMonth prevYm = ym.minusMonths(1);
         YearMonth nextYm = ym.plusMonths(1);
@@ -96,6 +120,10 @@ public class CalendarController {
         model.addAttribute("days", days);
         model.addAttribute("eventsByDate", eventsByDate);
         model.addAttribute("today", today);
+
+        // 사이드바용 데이터
+        model.addAttribute("todayEvents", todayEvents);
+        model.addAttribute("upcomingEvents", upcomingEvents);
 
         model.addAttribute("prevYear", prevYm.getYear());
         model.addAttribute("prevMonth", prevYm.getMonthValue());

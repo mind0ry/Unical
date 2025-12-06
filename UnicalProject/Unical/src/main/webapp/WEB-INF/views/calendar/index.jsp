@@ -6,6 +6,94 @@
     <meta charset="UTF-8">
     <title>내 캘린더 - UniCal</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+<style>
+/* 전체 사이드바 섹션 카드 */
+.app-sidebar .sidebar-section {
+  background: #e5edff;           /* 확실히 다른 색 */
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  border: 1px solid #c7d2fe;
+}
+
+/* 섹션 제목 (오늘 일정 / 다가오는 3일) */
+.app-sidebar .sidebar-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #4b5563;
+  margin-bottom: 8px;
+}
+
+.app-sidebar .sidebar-empty {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+/* 각 일정 카드 하나 */
+.app-sidebar .sidebar-event {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 8px;
+}
+
+/* 날짜 라인 (예: 2025-12-06, 오늘) */
+.app-sidebar .sidebar-event-date-line {
+  font-size: 11px;
+  color: #6b7280;
+  margin-bottom: 3px;
+}
+
+/* 점 + 제목 한 줄 */
+.app-sidebar .sidebar-event-main {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+/* 카테고리 색 점 */
+.app-sidebar .sidebar-event-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+/* 카테고리별 색상 */
+.app-sidebar .sidebar-event-dot.event-pill--lecture {
+  background-color: #3b82f6; /* 강의 (파랑) */
+}
+.app-sidebar .sidebar-event-dot.event-pill--assign {
+  background-color: #f97316; /* 과제 (주황) */
+}
+.app-sidebar .sidebar-event-dot.event-pill--exam {
+  background-color: #ef4444; /* 시험 (빨강) */
+}
+.app-sidebar .sidebar-event-dot.event-pill--team {
+  background-color: #22c55e; /* 팀플 (초록) */
+}
+.app-sidebar .sidebar-event-dot.event-pill--personal {
+  background-color: #6b7280; /* 개인 (회색) */
+}
+
+/* 제목 텍스트 */
+.app-sidebar .sidebar-event-title-text {
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 시간 표시 */
+.app-sidebar .sidebar-event-meta {
+  font-size: 11px;
+  color: #6b7280;
+  margin-left: 14px; /* 점+제목 정렬 맞추려고 들여쓰기 */
+}
+</style>
 </head>
 <body>
 <div class="app-shell">
@@ -33,6 +121,91 @@
         <aside class="app-sidebar">
             <div class="app-sidebar-title" style="margin-bottom:14px;">${calendar.name}</div>
 
+
+            <!-- 오늘 / 다가오는 일정 요약 -->
+            <section class="sidebar-section">
+                <div class="sidebar-section-title">오늘 일정</div>
+                <c:choose>
+                    <c:when test="${empty todayEvents}">
+                        <div class="sidebar-empty">오늘 일정이 없습니다.</div>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="e" items="${todayEvents}">
+                            <c:set var="categoryClass" value="event-pill--personal" />
+                            <c:choose>
+                                <c:when test="${e.category == 'LECTURE'}">
+                                    <c:set var="categoryClass" value="event-pill--lecture" />
+                                </c:when>
+                                <c:when test="${e.category == 'ASSIGNMENT'}">
+                                    <c:set var="categoryClass" value="event-pill--assign" />
+                                </c:when>
+                                <c:when test="${e.category == 'EXAM'}">
+                                    <c:set var="categoryClass" value="event-pill--exam" />
+                                </c:when>
+                                <c:when test="${e.category == 'TEAM'}">
+                                    <c:set var="categoryClass" value="event-pill--team" />
+                                </c:when>
+                            </c:choose>
+
+                            <div class="sidebar-event">
+                                <div class="sidebar-event-date-line">
+                                    오늘
+                                </div>
+                                <div class="sidebar-event-main">
+                                    <span class="sidebar-event-dot ${categoryClass}"></span>
+                                    <span class="sidebar-event-title-text">${e.title}</span>
+                                </div>
+                                <div class="sidebar-event-meta">
+                                    ${e.startDatetime.toLocalTime()} ~ ${e.endDatetime.toLocalTime()}
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+            </section>
+
+            <section class="sidebar-section">
+                <div class="sidebar-section-title">다가오는 일정</div>
+                <c:choose>
+                    <c:when test="${empty upcomingEvents}">
+                        <div class="sidebar-empty">다가오는 3일 일정이 없습니다.</div>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="e" items="${upcomingEvents}">
+                            <c:set var="categoryClass" value="event-pill--personal" />
+                            <c:choose>
+                                <c:when test="${e.category == 'LECTURE'}">
+                                    <c:set var="categoryClass" value="event-pill--lecture" />
+                                </c:when>
+                                <c:when test="${e.category == 'ASSIGNMENT'}">
+                                    <c:set var="categoryClass" value="event-pill--assign" />
+                                </c:when>
+                                <c:when test="${e.category == 'EXAM'}">
+                                    <c:set var="categoryClass" value="event-pill--exam" />
+                                </c:when>
+                                <c:when test="${e.category == 'TEAM'}">
+                                    <c:set var="categoryClass" value="event-pill--team" />
+                                </c:when>
+                            </c:choose>
+
+                            <div class="sidebar-event">
+                                <div class="sidebar-event-date-line">
+                                    ${e.startDatetime.toLocalDate()}
+                                </div>
+                                <div class="sidebar-event-main">
+                                    <span class="sidebar-event-dot ${categoryClass}"></span>
+                                    <span class="sidebar-event-title-text">${e.title}</span>
+                                </div>
+                                <div class="sidebar-event-meta">
+                                    ${e.startDatetime.toLocalTime()} ~ ${e.endDatetime.toLocalTime()}
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+            </section>
+
+            <!-- 기존 카테고리 영역 -->
             <div class="app-sidebar-title">카테고리</div>
 
             <!-- 전체 -->
@@ -412,7 +585,7 @@
             // 아래 리스트
             eventItems.forEach(item => {
                 const cat = item.getAttribute('data-category');
-                if (all || cat ===	category) {
+                if (all || cat === category) {
                     item.classList.remove('hidden');
                 } else {
                     item.classList.add('hidden');
